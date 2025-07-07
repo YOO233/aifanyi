@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dify 翻译服务</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>英文翻译服务</h1>
+        
+        <div class="input-section">
+            <textarea id="inputText" placeholder="请输入要翻译的英文内容..."></textarea>
+            <button onclick="startTranslation()">开始翻译</button>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="loader"></div>
+            <p>翻译进行中，请稍候...</p>
+        </div>
+
+        <div class="result-section">
+            <h2>翻译结果：</h2>
+            <div id="translatedResult" class="result-box"></div>
+            <div class="stats">
+                <span id="timeStat">用时：0s</span>
+                <span id="tokenStat">Tokens：0</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
