@@ -1,0 +1,59 @@
+#背景信息与环境
+我现在有一个dibian系统，并且可以在上面部署docker服务，我现在就在这个docker中部署了dify，并且在dify中编写发布了一个workflow，发布API信息如下：
+api_key:app-GV19S0Xp6rBG3U1hktnNan5M
+API服务器：http://192.168.0.250:50080/v1
+
+#任务
+ - 我现在需要你帮我完成一个workflow的调用执行任务，任务的目的是将用户输入的一段英文通过调用dify中的workflow翻译成中文再输出给用户。
+ - 调用api的请求信息要保存到dify_config.py配置文件下
+ - 要将api调用日志和返回结果储存成一个日志文件，方便调试和debug
+ - 开发完成后要测试是否能够正确的调用dify的workflow
+ - 服务器返回的结果是以.json格式返回，请将里面所有的内容输出到web界面，
+ - 最后要呈现出一个web界面供用户交互使用。
+ - 考虑到可能进行长文本的翻译，增加点击翻译后的加载动画，增加用户友好性。
+ - 要正确的处理</n></br>这种html符号，以保证在最后翻译结果输出时最大限度的保留原文格式。
+ - 同时编写一个测试程序用来测试api调用翻译返回结果等后台信息，同时在每一步开发后都要用它进行测试。
+
+#示例
+- 调用difyapi的请求json示例：
+curl -X POST 'http://192.168.0.250:50080/v1/workflows/run' \
+    --header 'Authorization: Bearer app-GV19S0Xp6rBG3U1hktnNan5M' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "inputs": {
+          "content": "english_text"
+      },
+        "response_mode": "blocking",
+        "user": "abc-123"
+    }'
+
+- 这是difyapi返回的响应的json示例：
+{
+    "task_id": "a76b4733-2846-44d9-a55e-12d1c3e12ae9",
+    "workflow_run_id": "54e70f86-b749-46f0-b9dc-c1f1d5fbc8fb",
+    "data": {
+        "id": "54e70f86-b749-46f0-b9dc-c1f1d5fbc8fb",
+        "workflow_id": "04949762-05e6-4964-bd88-5918f3f96d47",
+        "status": "succeeded",
+        "outputs": {
+            "output": "###问题\n1. 直译结果\"苹果\"虽然准确，但缺乏上下文信息，无法判断是否需要更专业的术语或特定领域的翻译。\n2. 原文为单个名词，直译结果保持了简洁性，但可能需要根据实际应用场景选择更合适的译法。\n***\n###意译\n苹果",
+            "": null
+        },
+        "error": "",
+        "elapsed_time": 8.158301,
+        "total_tokens": 307,
+        "total_steps": 4,
+        "created_at": 1751873189,
+        "finished_at": 1751873197
+    }
+}
+"output"中是翻译后的结果。
+"errorr”是错误信息
+"elapsed_time"是翻译用时
+"total_tokens"是使用的tokens数量
+
+ - 你要优化程序，适应这种格式的响应。并且在页面上增加显示翻译用时和使用tokens数量的显示。
+ - 并且要将翻译后的结果进行筛选，把“意译”后面的内容单独输出。
+ - 要增强用户的阅读体验，增强友好性。
+
+你清楚这个任务该如何完成吗？如果有不清楚的地方，可以询问我。
